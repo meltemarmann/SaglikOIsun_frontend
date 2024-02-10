@@ -38,7 +38,9 @@ function App() {
         <div>
           <p>Welcome, {user}!</p>
           <button onClick={handleLogout}>Logout</button>
-          {/* main page */}
+          {
+            //main
+          }
         </div>
       ) : (
         <div>
