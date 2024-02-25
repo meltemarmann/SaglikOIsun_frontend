@@ -1,24 +1,56 @@
-import React, { useState } from 'react';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import './App.css'; 
-
+import React, { useState } from "react";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import HealthForm from "./components/HealthForm";
+import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(true);
+  const [showHealthForm, setShowHealthForm] = useState(false);
 
-  const handleLogin = (username) => {
+  const handleLogin = async (
+    username,
+    token,
+    userId,
+    email,
+    isPatient,
+    isDoctor
+  ) => {
     setUser(username);
+    localStorage.setItem("authToken", token);
   };
 
   const handleSignup = (username) => {
     setUser(username);
     setShowLogin(true);
+    setShowHealthForm(true);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setUser(null);
+    try {
+      const authToken = localStorage.getItem("authToken");
+      console.log(authToken);
+      if (authToken) {
+        const response = await fetch("http://127.0.0.1:8000/api/logout/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${authToken}`,
+          },
+        });
+
+        if (response.ok) {
+          setUser(null);
+          localStorage.removeItem("authToken");
+        } else {
+          console.error("Logout request failed");
+        }
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   const handleSwitchToSignup = () => {
@@ -35,19 +67,33 @@ function App() {
         <h1>SAĞLIK OLSUN</h1>
       </div>
       {user ? (
-        <div>
-          <p>Welcome, {user}!</p>
-          <button onClick={handleLogout}>Logout</button>
-          {
-            //main
-          }
+        <div class="flex-column">
+          {showHealthForm ? (
+            <HealthForm />
+          ) : (
+            <div class="flex-column">
+              <p>Merhaba, {user}!</p>
+              <button onClick={handleLogout}>Çıkış Yap</button>
+            </div>
+          )}
         </div>
       ) : (
-        <div>
+        <div class="flex-column"
+          style={{
+            backgroundColor: "#f8f9fa",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          }}
+        >
           {showLogin ? (
-            <Login onLogin={handleLogin} onSwitchToSignup={handleSwitchToSignup} />
+            <Login
+              onLogin={handleLogin}
+              onSwitchToSignup={handleSwitchToSignup}
+            />
           ) : (
-            <Signup onSignup={handleSignup} onSwitchToLogin={handleSwitchToLogin} />
+            <Signup
+              onSignup={handleSignup}
+              onSwitchToLogin={handleSwitchToLogin}
+            />
           )}
         </div>
       )}
