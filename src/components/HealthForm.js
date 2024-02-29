@@ -13,33 +13,32 @@ const HealthForm = ({ onSubmit }) => {
     general_health: "",
     checkup: "",
     exercise: "",
-    heart_disease: false,
-    skin_cancer: false,
-    other_cancer: false,
-    depression: false,
-    diabetes: false,
-    arthritis: false,
-    sex: false,
-    age_category: false,
-    bmi: false,
-    smoking_history: false,
-    alcohol_consumption: false,
-    fruit_consumption: false,
-    green_vegetable_consumption: false,
-    fried_potato_consumption: false,
+    heart_disease: "",
+    skin_cancer: "",
+    other_cancer: "",
+    depression: "",
+    diabetes: "",
+    arthritis: "",
+    sex: "",
+    age_category: "",
+    bmi: "",
+    smoking_history: "",
+    alcohol_consumption: "",
+    fruit_consumption: "",
+    green_vegetable_consumption: "",
+    fried_potato_consumption: "",
   });
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type} = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "number" ? parseFloat(value) : value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can perform any validation before calling the onSubmit callback
     onSubmit(formData);
   };
 
@@ -85,7 +84,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormInput
           label="Yaş"
           type="number"
-          name="age"
+          name="age_category"
           value={formData.age}
           onChange={handleInputChange}
           min="0"
@@ -98,7 +97,6 @@ const HealthForm = ({ onSubmit }) => {
       <div className="row mb-4">
         <FormTextArea
           label="Alerjiler"
-          type="text"
           name="allergies"
           id="allergies"
           rows="1"
@@ -109,7 +107,6 @@ const HealthForm = ({ onSubmit }) => {
       <div className="row mb-4">
         <FormTextArea
           label="Kullandığınız İlaçlar"
-          type="text"
           name="medications"
           id="medications"
           rows="1"
@@ -120,7 +117,6 @@ const HealthForm = ({ onSubmit }) => {
       <div className="row mb-4">
         <FormTextArea
           label="Genel Sağlık Durumu"
-          type="text"
           name="general_health"
           id="general_health"
           rows="1"
@@ -131,7 +127,6 @@ const HealthForm = ({ onSubmit }) => {
       <div className="row mb-4">
         <FormTextArea
           label="Son Kontrol"
-          type="text"
           name="checkup"
           id="checkup"
           rows="1"
@@ -142,7 +137,6 @@ const HealthForm = ({ onSubmit }) => {
       <div className="row mb-4">
         <FormTextArea
           label="Yapılan Egzersizler"
-          type="text"
           name="exercise"
           id="exercise"
           rows="1"
@@ -150,7 +144,6 @@ const HealthForm = ({ onSubmit }) => {
           onChange={handleInputChange}
         />
       </div>
-      
       <button type="submit">Kaydet</button>
     </form>
   );

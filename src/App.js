@@ -67,11 +67,13 @@ function App() {
         <h1>SAĞLIK OLSUN</h1>
       </div>
       {user ? (
-        <div class="flex-column">
+        <div className="flex-column">
           {showHealthForm ? (
-            <HealthForm />
+            <HealthForm onSubmit={
+              (formData) => console.log(formData)
+            }/>
           ) : (
-            <div class="flex-column">
+            <div className="flex-column">
               <p>Merhaba, {user}!</p>
               <button onClick={handleLogout}>Çıkış Yap</button>
             </div>

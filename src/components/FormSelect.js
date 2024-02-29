@@ -4,8 +4,8 @@ const FormSelect = ({ label, options }) => {
   return (
     <div className="col">
       <div className="form-group">
-        <select className="form-select" aria-label="Default select example">
-          <option selected>{label}</option>
+        <select className="form-select" defaultValue="">
+          <option disabled value="">{label}</option>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
