@@ -6,7 +6,7 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userType, setUserType] = useState("hasta");
+  const [userType, setUserType] = useState("patient");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
@@ -41,14 +41,15 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
       });
 
       if (response.ok) {
-        onSignup(username);
+        const data = await response.json();
+        onSignup(username, data.token, userType);
         onSwitchToLogin();
       } else {
         const data = await response.json();
         if (data.username) {
-          setError(`Bu kullanıcı adı zaten alınmış.`);
+          setError("Bu kullanıcı adı zaten alınmış.");
         } else if (data.email) {
-          setError(`Bu email adresi zaten alınmış.`);
+          setError("Bu email adresi zaten alınmış.");
         } else {
           setError("Hesap oluşturulurken bir hata oluştu.");
         }
@@ -70,7 +71,7 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
     <div>
       <h2 className="header2">Kayıt</h2>
       <form onSubmit={handleSignup}>
-        <div class="flex-column">
+        <div className="flex-column">
           <label htmlFor="signup-username" className="login-label">
             Kullanıcı Adı:
           </label>
@@ -83,7 +84,7 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
             required
           />
         </div>
-        <div class="flex-column">
+        <div className="flex-column">
           <label htmlFor="signup-email" className="login-label">
             Email:
           </label>
@@ -96,7 +97,7 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
             required
           />
         </div>
-        <div class="flex-column">
+        <div className="flex-column">
         <div className="password-container">
           <label htmlFor="signup-password" className="login-label">
             Parola:
@@ -115,7 +116,7 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
           </div>
         </div>
         </div>
-        <div class="flex-column">
+        <div className="flex-column">
           <div className="password-container">
             <label htmlFor="signup-confirm-password" className="login-label">
               Parolayı Onayla:
@@ -136,7 +137,7 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
             </div>
           </div>
         </div>
-        <div class="flex-column">
+        <div className="flex-column">
           <label htmlFor="account-type" className="login-label">
             Hesap Türü:
           </label>

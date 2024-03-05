@@ -47,7 +47,7 @@ const Login = ({ onLogin, onSwitchToSignup }) => {
   };
 
   return (
-    <div class="flex-column">
+    <div className="flex-column">
       <h2 className="header2">Giriş</h2>
       <form onSubmit={handleLogin}>
         <div>
@@ -79,7 +79,7 @@ const Login = ({ onLogin, onSwitchToSignup }) => {
             {showPassword ? "👁️" : "👁️‍🗨️"}
           </div>
         </div>
-        <div class="flex-column">
+        <div className="flex-column">
         <button type="submit">Giriş</button>
         </div>
       </form>

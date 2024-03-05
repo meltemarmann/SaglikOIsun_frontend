@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import FormInput from './FormInput';
-import FormSelect from './FormSelect';
-import FormTextArea from './FormTextArea';
+import FormInput from "./FormInput";
+import FormSelect from "./FormSelect";
+import FormTextArea from "./FormTextArea";
 
 const HealthForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -21,7 +21,6 @@ const HealthForm = ({ onSubmit }) => {
     arthritis: "",
     sex: "",
     age_category: "",
-    bmi: "",
     smoking_history: "",
     alcohol_consumption: "",
     fruit_consumption: "",
@@ -30,10 +29,17 @@ const HealthForm = ({ onSubmit }) => {
   });
 
   const handleInputChange = (e) => {
-    const { name, value, type} = e.target;
+    const { name, value, type } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "number" ? parseFloat(value) : value,
+    }));
+  };
+
+  const handleSelectChange = (name, selectedValue) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: selectedValue,
     }));
   };
 
@@ -65,12 +71,11 @@ const HealthForm = ({ onSubmit }) => {
       </div>
       <div className="row mb-4">
         <FormInput
-          label="Boy(m)"
+          label="Boy(cm)"
           type="number"
           name="height"
           value={formData.height}
           onChange={handleInputChange}
-          step="0.01"
           min="0"
         />
         <FormInput
@@ -91,8 +96,18 @@ const HealthForm = ({ onSubmit }) => {
         />
       </div>
       <div className="row mb-4">
-        <FormSelect label="Kan Grubu" options={bloodTypeOptions} />
-        <FormSelect label="Cinsiyet" options={genderOptions} />
+        <FormSelect
+          label="Kan Grubu"
+          options={bloodTypeOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("blood_type", selectedValue)
+          }
+        />
+        <FormSelect
+          label="Cinsiyet"
+          options={genderOptions}
+          onChange={(selectedValue) => handleSelectChange("sex", selectedValue)}
+        />
       </div>
       <div className="row mb-4">
         <FormTextArea
@@ -142,6 +157,112 @@ const HealthForm = ({ onSubmit }) => {
           rows="1"
           value={formData.exercise}
           onChange={handleInputChange}
+        />
+      </div>
+      <div className="row mb-4">
+        <FormTextArea
+          label="Kalp Hastalığı"
+          name="heart_disease"
+          id="heart_disease"
+          rows="1"
+          value={formData.heart_disease}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="row mb-4">
+        <FormTextArea
+          label="Cilt Kanseri"
+          name="skin_cancer"
+          id="skin_cancer"
+          rows="1"
+          value={formData.skin_cancer}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="row mb-4">
+        <FormTextArea
+          label="Diğer Kanser"
+          name="other_cancer"
+          id="other_cancer"
+          rows="1"
+          value={formData.other_cancer}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="row mb-4">
+        <FormTextArea
+          label="Depresyon"
+          name="depression"
+          id="depression"
+          rows="1"
+          value={formData.depression}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="row mb-4">
+        <FormTextArea
+          label="Diyabet"
+          name="diabetes"
+          id="diabetes"
+          rows="1"
+          value={formData.diabetes}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="row mb-4">
+        <FormTextArea
+          label="Artrit"
+          name="arthritis"
+          id="arthritis"
+          rows="1"
+          value={formData.arthritis}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="row mb-4">
+        <FormTextArea
+          label="Sigara Tüketimi"
+          name="smoking_history"
+          id="smoking_history"
+          rows="1"
+          value={formData.smoking_history}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="row mb-4">
+        <FormInput
+          label="Alkol Tüketimi"
+          type="number"
+          name="alcohol_consumption"
+          value={formData.alcohol_consumption}
+          onChange={handleInputChange}
+          min="0"
+        />
+        <FormInput
+          label="Meyve Tüketimi"
+          type="number"
+          name="fruit_consumption"
+          value={formData.fruit_consumption}
+          onChange={handleInputChange}
+          min="0"
+        />
+      </div>
+      <div className="row mb-4">
+        <FormInput
+          label="Yeşil Sebze Tüketimi"
+          type="number"
+          name="green_vegetable_consumption"
+          value={formData.green_vegetable_consumption}
+          onChange={handleInputChange}
+          min="0"
+        />
+        <FormInput
+          label="Kızartma Tüketimi"
+          type="number"
+          name="fried_potato_consumption"
+          value={formData.fried_potato_consumption}
+          onChange={handleInputChange}
+          min="0"
         />
       </div>
       <button type="submit">Kaydet</button>

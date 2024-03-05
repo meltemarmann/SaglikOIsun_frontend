@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import HealthForm from "./components/HealthForm";
+import DoctorForm from "./components/DoctorForm";
 import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(true);
   const [showHealthForm, setShowHealthForm] = useState(false);
+  const [showDoctorForm, setShowDoctorForm] = useState(false);
 
   const handleLogin = async (
     username,
@@ -21,10 +23,14 @@ function App() {
     localStorage.setItem("authToken", token);
   };
 
-  const handleSignup = (username) => {
+  const handleSignup = (username, authToken, userType) => {
     setUser(username);
-    setShowLogin(true);
-    setShowHealthForm(true);
+    localStorage.setItem("authToken", authToken);
+    if (userType === "patient") {
+      setShowHealthForm(true);
+    } else if (userType === "doctor") {
+      setShowDoctorForm(true);
+    }
   };
 
   const handleLogout = async () => {
@@ -69,9 +75,9 @@ function App() {
       {user ? (
         <div className="flex-column">
           {showHealthForm ? (
-            <HealthForm onSubmit={
-              (formData) => console.log(formData)
-            }/>
+            <HealthForm onSubmit={(formData) => console.log(formData)} />
+          ) : showDoctorForm ? (
+            <DoctorForm onSubmit={(formData) => console.log(formData)} />
           ) : (
             <div className="flex-column">
               <p>Merhaba, {user}!</p>
@@ -80,7 +86,8 @@ function App() {
           )}
         </div>
       ) : (
-        <div class="flex-column"
+        <div
+          className="flex-column"
           style={{
             backgroundColor: "#f8f9fa",
             boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
