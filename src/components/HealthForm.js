@@ -29,10 +29,10 @@ const HealthForm = ({ onSubmit }) => {
   });
 
   const handleInputChange = (e) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "number" ? parseFloat(value) : value,
+      [name]: value,
     }));
   };
 
@@ -43,9 +43,31 @@ const HealthForm = ({ onSubmit }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    const apiUrl = "http://localhost:8000/api/patient/update";
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== "")
+    );
+    const bmi = filteredFormData.weight / Math.pow(filteredFormData.height / 100, 2);
+    filteredFormData.bmi = bmi;
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const response = await fetch(apiUrl, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${authToken}`,
+        },
+        body: JSON.stringify(filteredFormData),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update doctor details");
+      }
+      onSubmit();
+    } catch (error) {
+      console.error("Error updating patient details:", error.message);
+    }
   };
 
   const bloodTypeOptions = [
@@ -67,7 +89,7 @@ const HealthForm = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="container">
       <div className="custom-header">
-        <h2>Profil Detayları</h2>
+        <h2>Hasta Profil Detayları</h2>
       </div>
       <div className="row mb-4">
         <FormInput
@@ -77,6 +99,7 @@ const HealthForm = ({ onSubmit }) => {
           value={formData.height}
           onChange={handleInputChange}
           min="0"
+          required={true}
         />
         <FormInput
           label="Kilo(kg)"
@@ -85,6 +108,7 @@ const HealthForm = ({ onSubmit }) => {
           value={formData.weight}
           onChange={handleInputChange}
           min="0"
+          required={true}
         />
         <FormInput
           label="Yaş"
@@ -93,6 +117,7 @@ const HealthForm = ({ onSubmit }) => {
           value={formData.age}
           onChange={handleInputChange}
           min="0"
+          required={true}
         />
       </div>
       <div className="row mb-4">

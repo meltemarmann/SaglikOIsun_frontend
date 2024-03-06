@@ -67,6 +67,14 @@ function App() {
     setShowLogin(true);
   };
 
+  const handleHealthFormSubmit = () => {
+    setShowHealthForm(false);
+  }
+
+  const handleDoctorFormSubmit = () => {
+    setShowDoctorForm(false);
+  }
+
   return (
     <div className="app-container">
       <div className="app-header">
@@ -75,9 +83,9 @@ function App() {
       {user ? (
         <div className="flex-column">
           {showHealthForm ? (
-            <HealthForm onSubmit={(formData) => console.log(formData)} />
+            <HealthForm onSubmit={handleHealthFormSubmit} />
           ) : showDoctorForm ? (
-            <DoctorForm onSubmit={(formData) => console.log(formData)} />
+            <DoctorForm onSubmit={handleDoctorFormSubmit} />
           ) : (
             <div className="flex-column">
               <p>Merhaba, {user}!</p>

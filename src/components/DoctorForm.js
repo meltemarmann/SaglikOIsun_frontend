@@ -5,16 +5,18 @@ import FormTextArea from "./FormTextArea";
 
 const DoctorForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
-    specialty: "",
+    speciality: "",
+    gender: "",
     background: "",
+    birth_date: "",
     start_date: "",
   });
 
   const handleInputChange = (e) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "number" ? parseFloat(value) : value,
+      [name]: value,
     }));
   };
 
@@ -25,12 +27,35 @@ const DoctorForm = ({ onSubmit }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== "")
+    );
+    console.log(filteredFormData);
+    console.log(formData);
+    const apiUrl = "http://127.0.0.1:8000/api/doctor/update";
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const response = await fetch(apiUrl, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${authToken}`,
+        },
+        body: JSON.stringify(filteredFormData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update doctor details");
+      }
+      onSubmit();
+    } catch (error) {
+      console.error("Error updating doctor details:", error.message);
+    }
   };
 
-  const specialtyOptions = [
+  const specialityOptions = [
     { value: "1", label: "Dermatologist" },
     { value: "2", label: "Cardiologist" },
     { value: "3", label: "Psychiatrist" },
@@ -56,38 +81,57 @@ const DoctorForm = ({ onSubmit }) => {
     { value: "23", label: "Emergency Medicine Specialist" },
   ];
 
+  const genderOptions = [
+    { value: "1", label: "Erkek" },
+    { value: "2", label: "Kadın" },
+  ];
+
   return (
     <form onSubmit={handleSubmit} className="container">
       <div className="custom-header">
-        <h2>Profil Detayları</h2>
+        <h2>Doktor Profil Detayları</h2>
       </div>
       <div className="row mb-4">
         <FormSelect
-          label="Specialty"
-          options={specialtyOptions}
-          onChange={(value) => handleSelectChange("specialty", value)}
+          label="Uzmanlık Alanı"
+          options={specialityOptions}
+          onChange={(value) => handleSelectChange("speciality", value)}
         />
-        <FormTextArea
-          label="Background"
-          name="background"
-          id="background"
-          rows="5"
-          value={formData.background}
+        <FormSelect
+          label="Cinsiyet"
+          options={genderOptions}
+          onChange={(value) => handleSelectChange("gender", value)}
+        />
+      </div>
+      <div className="row mb-4">
+        <FormInput
+          label="Doğum Tarihi"
+          type="date"
+          name="birth_date"
+          value={formData.birth_date}
           onChange={handleInputChange}
         />
         <FormInput
-          label="Start Date"
+          label="Başlama Tarihi"
           type="date"
           name="start_date"
           value={formData.start_date}
           onChange={handleInputChange}
         />
       </div>
+      <div className="row mb-4">
+        <FormTextArea
+          label="Özgeçmiş"
+          name="background"
+          id="background"
+          rows="3"
+          value={formData.background}
+          onChange={handleInputChange}
+        />
+      </div>
       <div className="row">
         <div className="col">
-          <button type="submit">
-            Kaydet
-          </button>
+          <button type="submit">Kaydet</button>
         </div>
       </div>
     </form>

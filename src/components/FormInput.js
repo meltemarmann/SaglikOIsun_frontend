@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FormInput = ({ label, type, name, value, onChange, step, min }) => {
+const FormInput = ({ label, type, name, value, onChange, step, min, required }) => {
   return (
     <div className="col">
         <label className="form-label">{label}:</label>
@@ -12,6 +12,7 @@ const FormInput = ({ label, type, name, value, onChange, step, min }) => {
           className="form-control"
           step={step}
           min={min}
+          required={required}
         />
     </div>
   );
