@@ -5,6 +5,8 @@ import FormTextArea from "./FormTextArea";
 
 const HealthForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
     height: "",
     weight: "",
     blood_type: "",
@@ -90,6 +92,24 @@ const HealthForm = ({ onSubmit }) => {
     <form onSubmit={handleSubmit} className="container">
       <div className="custom-header">
         <h2>Hasta Profil Detayları</h2>
+      </div>
+      <div className="row mb-4">
+        <FormInput
+          label="Ad"
+          type="text"
+          name="first_name"
+          value={formData.first_name}
+          onChange={handleInputChange}
+          required={true}
+        />
+        <FormInput
+          label="Soyad"
+          type="text"
+          name="last_name"
+          value={formData.last_name}
+          onChange={handleInputChange}
+          required={true}
+        />
       </div>
       <div className="row mb-4">
         <FormInput
