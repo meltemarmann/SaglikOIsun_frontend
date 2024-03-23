@@ -8,6 +8,7 @@ const DoctorForm = ({ onSubmit }) => {
     first_name: "",
     last_name: "",
     speciality: "",
+    hospital: "",
     gender: "",
     background: "",
     birth_date: "",
@@ -34,8 +35,6 @@ const DoctorForm = ({ onSubmit }) => {
     const filteredFormData = Object.fromEntries(
       Object.entries(formData).filter(([key, value]) => value !== "")
     );
-    console.log(filteredFormData);
-    console.log(formData);
     const apiUrl = "http://127.0.0.1:8000/api/doctor/update";
     try {
       const authToken = localStorage.getItem("authToken");
@@ -109,6 +108,13 @@ const DoctorForm = ({ onSubmit }) => {
           value={formData.last_name}
           onChange={handleInputChange}
           required={true}
+        />
+        <FormInput
+          label="Hastane"
+          type="text"
+          name="hospital"
+          value={formData.hospital}
+          onChange={handleInputChange}
         />
       </div>
       <div className="row mb-4">

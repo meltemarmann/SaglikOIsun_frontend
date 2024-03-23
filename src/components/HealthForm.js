@@ -51,8 +51,11 @@ const HealthForm = ({ onSubmit }) => {
     const filteredFormData = Object.fromEntries(
       Object.entries(formData).filter(([key, value]) => value !== "")
     );
-    const bmi = filteredFormData.weight / Math.pow(filteredFormData.height / 100, 2);
+    const bmi = (
+      filteredFormData.weight / Math.pow(filteredFormData.height / 100, 2)
+    ).toFixed(2);
     filteredFormData.bmi = bmi;
+    filteredFormData.gender = filteredFormData.sex;
     try {
       const authToken = localStorage.getItem("authToken");
       const response = await fetch(apiUrl, {
@@ -64,7 +67,7 @@ const HealthForm = ({ onSubmit }) => {
         body: JSON.stringify(filteredFormData),
       });
       if (!response.ok) {
-        throw new Error("Failed to update doctor details");
+        throw new Error("Failed to update patient details");
       }
       onSubmit();
     } catch (error) {
@@ -73,19 +76,40 @@ const HealthForm = ({ onSubmit }) => {
   };
 
   const bloodTypeOptions = [
-    { value: "1", label: "A+" },
-    { value: "2", label: "A-" },
-    { value: "3", label: "B+" },
-    { value: "4", label: "B-" },
-    { value: "5", label: "AB+" },
-    { value: "6", label: "AB-" },
-    { value: "7", label: "O+" },
-    { value: "8", label: "O-" },
+    { value: "A+", label: "A+" },
+    { value: "A-", label: "A-" },
+    { value: "B+", label: "B+" },
+    { value: "B-", label: "B-" },
+    { value: "AB+", label: "AB+" },
+    { value: "AB-", label: "AB-" },
+    { value: "0+", label: "0+" },
+    { value: "0-", label: "0-" },
   ];
 
   const genderOptions = [
-    { value: "1", label: "Erkek" },
-    { value: "2", label: "Kadın" },
+    { value: "Erkek", label: "Erkek" },
+    { value: "Kadın", label: "Kadın" },
+  ];
+
+  const generalHealthOptions = [
+    { value: "Poor", label: "Kötü" },
+    { value: "Fair", label: "Orta" },
+    { value: "Good", label: "İyi" },
+    { value: "Very Good", label: "Çok İyi" },
+    { value: "Excellent", label: "Mükemmel" },
+  ];
+
+  const checkupOptions = [
+    { value: "Never", label: "Hiç" },
+    { value: "5 or more years ago", label: "5 veya daha fazla yıl önce" },
+    { value: "Within the last 5 years", label: "Son 5 yıl içinde" },
+    { value: "Within the last 2 year", label: "Son iki yıl içinde" },
+    { value: "Within the past year", label: "Geçen yıl içinde" },
+  ];
+
+  const yesNoOptions = [
+    { value: 1, label: "Evet" },
+    { value: 0, label: "Hayır" },
   ];
 
   return (
@@ -175,103 +199,93 @@ const HealthForm = ({ onSubmit }) => {
         />
       </div>
       <div className="row mb-4">
-        <FormTextArea
+        <FormSelect
           label="Genel Sağlık Durumu"
-          name="general_health"
-          id="general_health"
-          rows="1"
-          value={formData.general_health}
-          onChange={handleInputChange}
+          options={generalHealthOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("general_health", selectedValue)
+          }
         />
       </div>
       <div className="row mb-4">
-        <FormTextArea
-          label="Son Kontrol"
-          name="checkup"
-          id="checkup"
-          rows="1"
-          value={formData.checkup}
-          onChange={handleInputChange}
+        <FormSelect
+          label="Son Sağlık Kontrolü"
+          options={checkupOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("checkup", selectedValue)
+          }
         />
       </div>
       <div className="row mb-4">
-        <FormTextArea
-          label="Yapılan Egzersizler"
-          name="exercise"
-          id="exercise"
-          rows="1"
-          value={formData.exercise}
-          onChange={handleInputChange}
+        <FormSelect
+          label="Egzersiz Yapıyor Musunuz?"
+          options={yesNoOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("exercise", selectedValue)
+          }
         />
       </div>
       <div className="row mb-4">
-        <FormTextArea
-          label="Kalp Hastalığı"
-          name="heart_disease"
-          id="heart_disease"
-          rows="1"
-          value={formData.heart_disease}
-          onChange={handleInputChange}
+        <FormSelect
+          label="Kalp Hastalığı Var Mı?"
+          options={yesNoOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("heart_disease", selectedValue)
+          }
         />
       </div>
       <div className="row mb-4">
-        <FormTextArea
-          label="Cilt Kanseri"
-          name="skin_cancer"
-          id="skin_cancer"
-          rows="1"
-          value={formData.skin_cancer}
-          onChange={handleInputChange}
+        <FormSelect
+          label="Cilt Kanseri Var Mı?"
+          options={yesNoOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("skin_cancer", selectedValue)
+          }
         />
       </div>
       <div className="row mb-4">
-        <FormTextArea
-          label="Diğer Kanser"
-          name="other_cancer"
-          id="other_cancer"
-          rows="1"
-          value={formData.other_cancer}
-          onChange={handleInputChange}
+        <FormSelect
+          label="Diğer Kanser Var Mı?"
+          options={yesNoOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("other_cancer", selectedValue)
+          }
         />
       </div>
       <div className="row mb-4">
-        <FormTextArea
-          label="Depresyon"
-          name="depression"
-          id="depression"
-          rows="1"
-          value={formData.depression}
-          onChange={handleInputChange}
+        <FormSelect
+          label="Depresyon Var Mı?"
+          options={yesNoOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("depression", selectedValue)
+          }
         />
       </div>
       <div className="row mb-4">
-        <FormTextArea
-          label="Diyabet"
-          name="diabetes"
-          id="diabetes"
-          rows="1"
-          value={formData.diabetes}
-          onChange={handleInputChange}
+        <FormSelect
+          label="Diyabet Var Mı?"
+          options={yesNoOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("diabetes", selectedValue)
+          }
         />
       </div>
       <div className="row mb-4">
-        <FormTextArea
-          label="Artrit"
-          name="arthritis"
-          id="arthritis"
-          rows="1"
-          value={formData.arthritis}
-          onChange={handleInputChange}
+        <FormSelect
+          label="Artrit Var Mı?"
+          options={yesNoOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("arthritis", selectedValue)
+          }
         />
       </div>
       <div className="row mb-4">
-        <FormTextArea
-          label="Sigara Tüketimi"
-          name="smoking_history"
-          id="smoking_history"
-          rows="1"
-          value={formData.smoking_history}
-          onChange={handleInputChange}
+        <FormSelect
+          label="Sigara Tüketiyor Musunuz?"
+          options={yesNoOptions}
+          onChange={(selectedValue) =>
+            handleSelectChange("smoking_history", selectedValue)
+          }
         />
       </div>
       <div className="row mb-4">
