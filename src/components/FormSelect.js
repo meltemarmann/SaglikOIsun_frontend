@@ -1,13 +1,13 @@
 import React from "react";
 
-const FormSelect = ({ label, options, onChange }) => {
+const FormSelect = ({ label, options, onChange, value}) => {
   return (
     <div className="col">
       <div className="form-group">
         <select
           onChange={(e) => onChange(e.target.value)}
           className="form-select"
-          defaultValue=""
+          value={value || ""}
         >
           <option disabled value="">
             {label}

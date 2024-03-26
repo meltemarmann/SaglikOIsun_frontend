@@ -5,7 +5,6 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -16,7 +15,7 @@ import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 const pages = ["Doktorlarım", "Hastalıklarım"];
 const settings = ["Profil", "Oturumu Kapat"];
 
-function ResponsiveAppBar({ first_name, last_name, handleLogout, handleMyDoctorsClick, handleSaglikOlsunClick}) {
+function ResponsiveAppBar({ first_name, last_name, handleLogout, handleMyDoctorsClick, handleProfileClick, handleSaglikOlsunClick}) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenUserMenu = (event) => {
@@ -34,7 +33,7 @@ function ResponsiveAppBar({ first_name, last_name, handleLogout, handleMyDoctors
           handleLogout();
           break;
         case "Profil":
-          console.log("Profile");
+          handleProfileClick();
           break;
         default:
       }

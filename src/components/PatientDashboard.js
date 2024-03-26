@@ -5,10 +5,13 @@ import Chip from "@mui/material/Chip";
 import FetchHeartDiseaseButton from "../mui-components/FetchHeartDiseaseButton";
 import Chat from "../chat-components/Chat";
 import MyDoctors from "./MyDoctors";
+import PatientProfile from "./PatientProfile";
 
 const PatientDashboard = ({ handleLogout }) => {
   const [patientData, setPatientData] = useState(null);
   const [showMyDoctors, setShowMyDoctors] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     const fetchPatientData = async () => {
@@ -37,6 +40,12 @@ const PatientDashboard = ({ handleLogout }) => {
 
   const handleMyDoctorsClick = () => {
     setShowMyDoctors(true);
+    setShowProfile(false); // Hide profile when showing doctors
+  }
+
+  const handleProfileClick = () => {
+    setShowProfile(true);
+    setShowMyDoctors(false); // Hide doctors when showing profile
   }
 
   return (
@@ -48,9 +57,16 @@ const PatientDashboard = ({ handleLogout }) => {
             last_name={patientData.user.last_name}
             handleLogout={handleLogout}
             handleMyDoctorsClick={handleMyDoctorsClick}
-            handleSaglikOlsunClick={() => {setShowMyDoctors(false)}}
+            handleProfileClick={handleProfileClick}
+            handleSaglikOlsunClick={() => {
+              setShowMyDoctors(false)
+              setShowProfile(false)
+            }}
+
           />
-          {!showMyDoctors && (
+          {showProfile && !showMyDoctors && (<PatientProfile />)}
+          {showMyDoctors && !showProfile && (<MyDoctors />)}
+          {!showProfile && !showMyDoctors && ( 
             <div
               style={{
                 textAlign: "center",
@@ -65,7 +81,7 @@ const PatientDashboard = ({ handleLogout }) => {
                   textTransform: "uppercase",
                 }}
               >
-                {patientData.user.first_name} {patientData.user.last_name}{" "}
+                {patientData.user.first_name} {patientData.user.last_name}
               </h2>
               <div
                 style={{
@@ -143,7 +159,6 @@ const PatientDashboard = ({ handleLogout }) => {
               </div>
             </div>
           )}
-          {showMyDoctors && <MyDoctors />}
         </>
       )}
     </div>
