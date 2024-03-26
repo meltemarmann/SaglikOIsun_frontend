@@ -15,7 +15,6 @@ const HealthForm = ({ onSubmit }) => {
     general_health: "",
     checkup: "",
     exercise: "",
-    heart_disease: "",
     skin_cancer: "",
     other_cancer: "",
     depression: "",
@@ -222,15 +221,6 @@ const HealthForm = ({ onSubmit }) => {
           options={yesNoOptions}
           onChange={(selectedValue) =>
             handleSelectChange("exercise", selectedValue)
-          }
-        />
-      </div>
-      <div className="row mb-4">
-        <FormSelect
-          label="Kalp Hastalığı Var Mı?"
-          options={yesNoOptions}
-          onChange={(selectedValue) =>
-            handleSelectChange("heart_disease", selectedValue)
           }
         />
       </div>

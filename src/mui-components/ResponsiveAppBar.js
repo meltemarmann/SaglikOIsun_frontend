@@ -16,19 +16,11 @@ import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 const pages = ["Doktorlarım", "Hastalıklarım"];
 const settings = ["Profil", "Oturumu Kapat"];
 
-function ResponsiveAppBar({ first_name, last_name, handleLogout }) {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+function ResponsiveAppBar({ first_name, last_name, handleLogout, handleMyDoctorsClick, handleSaglikOlsunClick}) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -43,6 +35,21 @@ function ResponsiveAppBar({ first_name, last_name, handleLogout }) {
           break;
         case "Profil":
           console.log("Profile");
+          break;
+        default:
+      }
+    },
+    []
+  );
+
+  const handlePageItemClick = React.useCallback(
+    (page) => () => {
+      switch (page) {
+        case "Doktorlarım":
+          handleMyDoctorsClick();
+          break;
+        case "Hastalıklarım":
+          console.log("Hastalıklarım");
           break;
         default:
       }
@@ -88,6 +95,7 @@ function ResponsiveAppBar({ first_name, last_name, handleLogout }) {
             variant="h6"
             noWrap
             component="a"
+            onClick={handleSaglikOlsunClick}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -96,73 +104,17 @@ function ResponsiveAppBar({ first_name, last_name, handleLogout }) {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             SAĞLIK OLSUN
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <HealthAndSafetyIcon
-            sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-          />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            SAĞLIK OLSUN
-          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={handlePageItemClick(page)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}
@@ -171,10 +123,10 @@ function ResponsiveAppBar({ first_name, last_name, handleLogout }) {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Ayarları Aç">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar {...stringAvatar(first_name + ' ' + last_name)} />{" "}
-              </IconButton> 
+                <Avatar {...stringAvatar(first_name + " " + last_name)} />{" "}
+              </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
