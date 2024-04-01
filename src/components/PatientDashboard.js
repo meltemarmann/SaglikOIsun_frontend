@@ -11,6 +11,8 @@ const PatientDashboard = ({ handleLogout }) => {
   const [patientData, setPatientData] = useState(null);
   const [showMyDoctors, setShowMyDoctors] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [bmiCategory, setBmiCategory] = useState('');
+  const [bmiColor, setBmiColor] = useState('');
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -30,6 +32,9 @@ const PatientDashboard = ({ handleLogout }) => {
         if (response.ok) {
           const data = await response.json();
           setPatientData(data);
+          const bmiCategory = checkBmiValue(data.bmi);
+          setBmiCategory(bmiCategory);
+          setBmiColor(getBmiColor(bmiCategory));
         }
       } catch (error) {
         console.error("Error fetching patient data:", error);
@@ -40,12 +45,47 @@ const PatientDashboard = ({ handleLogout }) => {
 
   const handleMyDoctorsClick = () => {
     setShowMyDoctors(true);
-    setShowProfile(false); // Hide profile when showing doctors
+    setShowProfile(false);
   }
 
   const handleProfileClick = () => {
     setShowProfile(true);
-    setShowMyDoctors(false); // Hide doctors when showing profile
+    setShowMyDoctors(false);
+  }
+
+  function checkBmiValue(bmi) {
+    if (bmi < 18.5) {
+      return 'Zayıf';
+    } else if (bmi >= 18.5 && bmi <= 24.9) {
+      return 'Normal ağırlıkta';
+    } else if (bmi >= 25.0 && bmi <= 29.9) {
+      return 'Kilolu';
+    } else if (bmi >= 30.0 && bmi <= 34.9) {
+      return '1. derece obezite';
+    } else if (bmi >= 35.0 && bmi <= 39.9) {
+      return '2. derece obezite';
+    } else {
+      return '3. derece obezite';
+    }
+  }
+
+  function getBmiColor(category) {
+    switch (category) {
+      case 'Zayıf':
+        return '#2980B9'; 
+      case 'Normal ağırlıkta':
+        return '#2ECC71'; 
+      case 'Kilolu':
+        return '#F1C40F'; 
+      case '1. derece obezite':
+        return '#E67E22'; 
+      case '2. derece obezite':
+        return '#9B59B6'; 
+      case '3. derece obezite':
+        return '#E74C3C'; 
+      default:
+        return '#000000'; 
+    }
   }
 
   return (
@@ -115,9 +155,9 @@ const PatientDashboard = ({ handleLogout }) => {
                     }}
                   />
                   <Chip
-                    label={`Vücut Kitle Endeksi: ${patientData.bmi}`}
+                    label={`Vücut Kitle Endeksi: ${patientData.bmi} (${bmiCategory})`}
                     style={{
-                      background: "#31CF24",
+                      background: bmiColor,
                       fontSize: "1.2rem",
                       padding: "12px",
                     }}
