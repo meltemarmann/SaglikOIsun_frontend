@@ -33,6 +33,7 @@ function ResponsiveAppBar({ first_name, last_name, handleLogout, handleMyDoctors
           handleLogout();
           break;
         case "Profil":
+          setAnchorElUser(null);
           handleProfileClick();
           break;
         default:
