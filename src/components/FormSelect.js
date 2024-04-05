@@ -7,7 +7,7 @@ const FormSelect = ({ label, options, onChange, value}) => {
         <select
           onChange={(e) => onChange(e.target.value)}
           className="form-select"
-          value={value || ""}
+          value={value}
         >
           <option disabled value="">
             {label}

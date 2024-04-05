@@ -167,6 +167,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Kan Grubu"
           options={bloodTypeOptions}
+          value={formData.blood_type}
           onChange={(selectedValue) =>
             handleSelectChange("blood_type", selectedValue)
           }
@@ -174,6 +175,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Cinsiyet"
           options={genderOptions}
+          value={formData.sex}
           onChange={(selectedValue) => handleSelectChange("sex", selectedValue)}
         />
       </div>
@@ -201,6 +203,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Genel Sağlık Durumu"
           options={generalHealthOptions}
+          value={formData.general_health}
           onChange={(selectedValue) =>
             handleSelectChange("general_health", selectedValue)
           }
@@ -210,6 +213,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Son Sağlık Kontrolü"
           options={checkupOptions}
+          value={formData.checkup}
           onChange={(selectedValue) =>
             handleSelectChange("checkup", selectedValue)
           }
@@ -219,6 +223,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Egzersiz Yapıyor Musunuz?"
           options={yesNoOptions}
+          value={formData.exercise}
           onChange={(selectedValue) =>
             handleSelectChange("exercise", selectedValue)
           }
@@ -228,6 +233,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Cilt Kanseri Var Mı?"
           options={yesNoOptions}
+          value={formData.skin_cancer}
           onChange={(selectedValue) =>
             handleSelectChange("skin_cancer", selectedValue)
           }
@@ -237,6 +243,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Diğer Kanser Var Mı?"
           options={yesNoOptions}
+          value={formData.other_cancer}
           onChange={(selectedValue) =>
             handleSelectChange("other_cancer", selectedValue)
           }
@@ -246,6 +253,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Depresyon Var Mı?"
           options={yesNoOptions}
+          value={formData.depression}
           onChange={(selectedValue) =>
             handleSelectChange("depression", selectedValue)
           }
@@ -255,6 +263,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Diyabet Var Mı?"
           options={yesNoOptions}
+          value={formData.diabetes}
           onChange={(selectedValue) =>
             handleSelectChange("diabetes", selectedValue)
           }
@@ -264,6 +273,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Artrit Var Mı?"
           options={yesNoOptions}
+          value={formData.arthritis}
           onChange={(selectedValue) =>
             handleSelectChange("arthritis", selectedValue)
           }
@@ -273,6 +283,7 @@ const HealthForm = ({ onSubmit }) => {
         <FormSelect
           label="Sigara Tüketiyor Musunuz?"
           options={yesNoOptions}
+          value={formData.smoking_history}
           onChange={(selectedValue) =>
             handleSelectChange("smoking_history", selectedValue)
           }
