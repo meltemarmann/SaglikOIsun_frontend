@@ -3,6 +3,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
+import HeartDiseaseRiskDisplay from "./HeartDiseaseRiskDisplay";
 
 export default function FetchHeartDiseaseButton() {
   const [loading, setLoading] = React.useState(false);
@@ -55,23 +56,17 @@ export default function FetchHeartDiseaseButton() {
           startIcon={<HeartBrokenIcon />}
           variant="contained"
           size="large"
+          sx={{
+            minWidth: '200px', 
+            minHeight: '60px', 
+            fontSize: '1.2rem', 
+          }}
         >
           <span>Risk Hesapla (Kalp) </span>
         </LoadingButton>
       </Box>
       {prediction !== null && (
-        <div style={{ textAlign: "center" }}>
-          <Typography variant="h6" gutterBottom>
-            Tahmin Sonucu:
-          </Typography>
-          <Typography
-            variant="h4"
-            component="p"
-            color={prediction == 1 ? "error" : "primary"}
-          >
-            {prediction == 1 ? "Risk Var" : "Risk Yok"}
-          </Typography>
-        </div>
+          <HeartDiseaseRiskDisplay progress={prediction * 100} />
       )}
     </div>
   );

@@ -2,7 +2,7 @@ const API = {
   GetChatbotResponse: async (message) => {
     try {
       if (message.toLowerCase() === "hi") {
-        return "Hoşgeldiniz, rahatsızlığınız nedir?"; // Default response for "hi" message
+        return "Merhaba. Ben yapay doktorun Sağlık Olsun. Sana nasıl yardımcı olabilirim?"; 
       } else {
         const response = await fetch('http://127.0.0.1:8000/api/chatbot/', {
           method: 'POST',
@@ -17,11 +17,11 @@ const API = {
         }
 
         const data = await response.json();
-        return data.response; // Response from the backend chatbot
+        return data.response; 
       }
     } catch (error) {
       console.error('Error communicating with backend:', error);
-      throw error; // Rethrow the error to be caught by the caller
+      throw error; 
     }
   },
 };
