@@ -101,8 +101,8 @@ const HealthForm = ({ onSubmit }) => {
   const checkupOptions = [
     { value: "Never", label: "Hiç" },
     { value: "5 or more years ago", label: "5 veya daha fazla yıl önce" },
-    { value: "Within the last 5 years", label: "Son 5 yıl içinde" },
-    { value: "Within the last 2 year", label: "Son iki yıl içinde" },
+    { value: "Within the past 5 years", label: "Son 5 yıl içinde" },
+    { value: "Within the past 2 years", label: "Son iki yıl içinde" },
     { value: "Within the past year", label: "Geçen yıl içinde" },
   ];
 

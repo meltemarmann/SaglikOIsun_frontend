@@ -302,7 +302,61 @@ const PatientProfile = () => {
                     handleInputChange({ target: { name: "arthritis", value } })
                   }
                 />
+                Sigara Geçmişi:
+                <FormSelect
+                  label="Sigara Geçmişi"
+                  options={yesNoOptions}
+                  value={editableData.smoking_history}
+                  onChange={(value) =>
+                    handleInputChange({
+                      target: { name: "smoking_history", value },
+                    })
+                  }
+                />
               </div>
+
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Alkol Tüketimi"
+                    name="alcohol_consumption"
+                    type="number"
+                    value={editableData.alcohol_consumption}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Meyve Tüketimi"
+                    name="fruit_consumption"
+                    type="number"
+                    value={editableData.fruit_consumption}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Yeşil Sebze Tüketimi"
+                    name="green_vegetable_consumption"
+                    type="number"
+                    value={editableData.green_vegetable_consumption}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Kızartma Patates Tüketimi"
+                    name="fried_potato_consumption"
+                    type="number"
+                    value={editableData.fried_potato_consumption}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
 
