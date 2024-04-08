@@ -194,7 +194,6 @@ const PatientDashboard = ({ handleLogout }) => {
                 <Stack direction="row" spacing={10}>
                   <FetchHeartDiseaseButton />
                   <Chat />
-                  <FetchHeartDiseaseButton />
                 </Stack>
               </div>
             </div>

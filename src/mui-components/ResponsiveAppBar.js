@@ -12,7 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 
-const pages = ["Doktorlarım", "Hastalıklarım"];
+const pages = ["Doktorlarım"];
 const settings = ["Profil", "Oturumu Kapat"];
 
 function ResponsiveAppBar({ first_name, last_name, handleLogout, handleMyDoctorsClick, handleProfileClick, handleSaglikOlsunClick}) {
@@ -47,9 +47,6 @@ function ResponsiveAppBar({ first_name, last_name, handleLogout, handleMyDoctors
       switch (page) {
         case "Doktorlarım":
           handleMyDoctorsClick();
-          break;
-        case "Hastalıklarım":
-          console.log("Hastalıklarım");
           break;
         default:
       }
